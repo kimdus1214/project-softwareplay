@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled from 'styled-components';
+import { Route } from 'react-router-dom';
+import { Home, Login, Join } from './pages';
+import InFooter from "./components/InFooter";
+
+const Footer = styled.div`
+  width : 100%;
+  background-color: #f7f7f7;
+  padding-bottom : 30px;
+  padding-top : 10px;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <> 
+      <Route path='/' exact={true} component={Home} />
+      <Route path='/Login' component={Login} />
+      <Route path='/Join' component={Join} />
+      <Footer>
+            <InFooter />
+      </Footer>
+    </>
   );
 }
 
