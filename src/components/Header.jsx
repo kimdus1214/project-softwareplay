@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from "react";
 import styled,{css} from "styled-components";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const HeaderWrap = styled.div`
   width : 100%;
@@ -60,7 +61,7 @@ const JoinBtn = styled(LoginBtn)`
   }
 `;
 
-function Header({LoginSucss}) {
+function Header() {
   const [scrollY, setScrollY] = useState(0);
   const [hideBak, setHideBak] = useState(false); // header 배경화면 초기화
   const [logoimg, setLogoimg] = useState("/img/logo.svg"); // 로고 이미지 초기화
@@ -91,6 +92,22 @@ function Header({LoginSucss}) {
     }
   })
 
+  // useEffect(() => {
+  //   axios.post('login').then((response) => {
+  //     const props = response.data.loginSuccess;
+  //     console.log(props);
+  //   });
+  //   return props;
+  // }, []);
+
+  let test = axios.post("/login").then((response) => {
+    if (response.data.loginSuccess) {
+      console.log(response.data.loginSuccess);
+    } else {
+      console.log('1');
+    }
+  });
+
   return (
     <HeaderWrap hideBak={hideBak}>
       <InHead>
@@ -99,8 +116,14 @@ function Header({LoginSucss}) {
         </div>
 
         <HeaderBtnBox>
-          <LoginBtn><Link to ="/Login">{LoginSucss ? '마이페이지' : '로그인'}</Link></LoginBtn>
-          <JoinBtn joinBtnColor={joinBtnColor}><Link to ="/Join">{LoginSucss ? '로그아웃' : '회원가입'}</Link></JoinBtn>
+          <LoginBtn>
+            {!test? ('마이페이지'):(<Link to="/Login">로그인</Link>)}
+            {/* <Link to="/Login">{LoginSucss ? '마이페이지' : '로그인'}</Link> */}
+          </LoginBtn>
+          <JoinBtn joinBtnColor={joinBtnColor}>
+            {!test? ('로그아웃'):(<Link to="/Join">회원가입</Link>)}
+            {/* <Link to="/Join">{LoginSucss ? '로그아웃' : '회원가입'}</Link> */}
+          </JoinBtn>
         </HeaderBtnBox>
       </InHead>
     </HeaderWrap>

@@ -2,7 +2,10 @@ import React,{useState, useCallback} from 'react';
 import HeaderM from '../components/HeaderM';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { lighten , darken } from "polished";
+import { lighten, darken } from "polished";
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../_actions/user_action';
+import { withRouter } from 'react-router';
 
 const FormBlock = styled.div`
   width : 100%;
@@ -96,20 +99,28 @@ const JoinBtn = styled.div`
 function Login({history}) {
   const [userId, setUserId] = useState('');
   const [userPw, setUserPw] = useState('');
+  const dispatch = useDispatch();
   const onChangeId= useCallback( e =>setUserId(e.target.value), []);
   const onChangePw= useCallback( e =>setUserPw(e.target.value), []);
 
   const onSubmit = e=> {
     e.preventDefault();
-    if (userId === "" || userPw === "") {
-      alert('아이디와 비밀번호를 모두 입력해주세요');
-      return;
-    }
-    if(userId==='admin' && userPw==='1234'){
-      console.log('홈으로');
-      history.push('/');
-    }else{
-      alert('일치하는 회원이 없습니다.');
+    let body = {
+      id: userId,
+      password: userPw
+    };
+
+    if (!userId || !userPw) {
+      alert('아이디 및 비밀번호를 입력해주세요!');
+    } else {
+      dispatch(loginUser(body)).then((response) => {
+        if (response.payload.loginSuccess) {
+          localStorage.setItem("userId", response.payload.userId);
+          history.push('/');
+        } else {
+          alert(response.payload.error);
+        }
+      })
     }
   };
 
@@ -132,4 +143,4 @@ function Login({history}) {
   );
 }
 
-export default Login;
+export default withRouter(Login);

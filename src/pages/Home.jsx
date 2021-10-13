@@ -4,6 +4,7 @@ import Main from '../components/Main';
 import News from "../components/News";
 import Header from '../components/Header';
 
+
 const Wrap = styled.div`
   width:100%;
 `;
@@ -13,15 +14,17 @@ const Section = styled.div`
 `;
 
 function Home() {
+
+  
   return (
     <>
-    <Header />  
-    <Wrap>
-      <Section>
-        <Main />
-        <News />
-      </Section>
-    </Wrap>
+      <Header/>
+      <Wrap>
+        <Section>
+          <Main />
+          <News />
+        </Section>
+      </Wrap>
     </>
   );
 }
