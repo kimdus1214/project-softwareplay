@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import LogoutBtn from "./LogoutBtn";
 
 const HeaderWrap = styled.div`
   width : 100%;
@@ -46,6 +47,7 @@ const JoinBtn = styled(LoginBtn)`
 `;
 
 function HeaderM() {
+  let btnChange = window.localStorage.getItem("userId");
 
   return (
     <HeaderWrap>
@@ -57,8 +59,12 @@ function HeaderM() {
         </div>
 
         <HeaderBtnBox>
-          <LoginBtn><Link to ="/Login">로그인</Link></LoginBtn>
-          <JoinBtn><Link to ="/Join">회원가입</Link></JoinBtn>
+          <LoginBtn>
+            {btnChange ? '마이페이지' : <Link to ="/Login">로그인</Link>}
+          </LoginBtn>
+          <JoinBtn>
+            {btnChange ? <LogoutBtn /> : <Link to ="/Join">회원가입</Link>}
+          </JoinBtn>
         </HeaderBtnBox>
       </InHead>
     </HeaderWrap>
